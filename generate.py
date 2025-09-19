@@ -4,9 +4,9 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 
 class QuizApp(tk.Tk):
-    def __init__(self, subjects_folder="subjects"):
+    def __init__(self, subjects_folder='subjects'):
         super().__init__()
-        self.title(choice(["ЕБАНЫЙ КОРЕНЬ", "ХУЁВАЯ ОПТИМИЗАЦИЯЮ", "ДРОЧИЛЬНЯ v2.0", "ГОВНОЧИСТКА", "СЕРВЕР — ПИДОР", "АВТОМАТИЗАЦИЯ ХУЙНИ", "СИМУЛЯТОР ДОЛБОЁБА", "ПИЗДЮЛИМ ВСЕХ", "ХУЙНЯ, НО ПРИКОЛЬНАЯ", "ПОШЛО ВСЁ НАХУЙ", "СПАСИБО, ЧТО ЖИВОЙ", "НАЖМИ F, ЧТОБЫ ВЫЙТИ", "СИНТАКСИЧЕСКИЙ ПОНОС", "ХУЙ ЗНАЕТ, КАК ЭТО РАБОТАЕТ"]))
+        self.title('Генератор билетов')
         self.geometry("600x400")
 
         self.subjects_folder = subjects_folder
@@ -50,11 +50,11 @@ class QuizApp(tk.Tk):
         refresh_btn = ttk.Button(self.selection_frame, text="Обновить", command=self._refresh_file_list)
         refresh_btn.grid(row=0, column=2, padx=10)
 
-        ttk.Label(self.selection_frame, text="Вопросов в билет:").grid(row=1, column=0, sticky=tk.W)
+        ttk.Label(self.selection_frame, text="Вопросов в билете:").grid(row=1, column=0, sticky=tk.W)
         self.num_entry = ttk.Entry(self.selection_frame, width=5)
         self.num_entry.grid(row=1, column=1, sticky=tk.W)
 
-        start_btn = ttk.Button(self.selection_frame, text="НАЧАТЬ СТРАДАТЬ", command=self._start_quiz)
+        start_btn = ttk.Button(self.selection_frame, text="Начать тест", command=self._start_quiz)
         start_btn.grid(row=2, column=0, columnspan=3, pady=10)
 
     def _start_quiz(self):
@@ -94,12 +94,12 @@ class QuizApp(tk.Tk):
 
         btn_frame = ttk.Frame(self.quiz_frame)
         btn_frame.pack(pady=10)
-        ttk.Button(btn_frame, text="Знаю", command=self._next_ticket).pack(side=tk.LEFT, padx=5)
-        ttk.Button(btn_frame, text="Заебался", command=self.destroy).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="Дальше", command=self._next_ticket).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="Завершить", command=self.destroy).pack(side=tk.LEFT, padx=5)
 
     def _show_ticket(self):
         if not self.remaining:
-            messagebox.showinfo("Красава", "Все вопросы разобраны!")
+            messagebox.showinfo("Успешно", "Все вопросы разобраны!")
             self.destroy()
             return
 
