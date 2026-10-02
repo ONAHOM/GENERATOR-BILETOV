@@ -1,0 +1,3 @@
+## 2024-10-02 - O(N²) List Operations in Python Loops
+**Learning:** Selecting items repeatedly with `random.choice()` and removing them using `list.remove()`, combined with looking up indices using `list.index()` inside a loop leads to an $O(N^2)$ algorithm where $N$ is the number of elements. In Python, `.remove()` and `.index()` are $O(N)$ operations which creates extreme performance bottlenecks on larger datasets.
+**Action:** When a random sequence without replacement and indexing is needed, pre-calculate indices by creating a list of tuples like `list(enumerate(items, start=1))`, `random.shuffle()` the list once in $O(N)$ time, and use `list.pop()` repeatedly to fetch random items in $O(1)$ time. This turns an $O(N^2)$ algorithm into an $O(N)$ one.
