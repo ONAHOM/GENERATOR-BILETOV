@@ -1,5 +1,5 @@
 import os
-from random import choice
+import random
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -80,7 +80,11 @@ class QuizApp(tk.Tk):
             return
 
         self.questions = lines
-        self.remaining = list(self.questions)
+        # OPTIMIZATION: Store original indices and shuffle once to allow O(1) popping
+        # instead of O(N) list.remove() and O(N) list.index() lookup later
+        self.remaining = list(enumerate(self.questions, start=1))
+        random.shuffle(self.remaining)
+
         self.selection_frame.destroy()
         self._build_quiz_frame()
         self._show_ticket()
@@ -105,18 +109,20 @@ class QuizApp(tk.Tk):
 
         # Choose questions
         self.current_ticket = []
+        current_ticket_with_indices = []
         for _ in range(self.num_per_ticket):
             if not self.remaining:
                 break
-            q = choice(self.remaining)
-            self.current_ticket.append(q)
-            self.remaining.remove(q)
+            # OPTIMIZATION: O(1) pop instead of O(N) remove from random choice
+            q_tuple = self.remaining.pop()
+            self.current_ticket.append(q_tuple[1]) # Preserve self.current_ticket structure
+            current_ticket_with_indices.append(q_tuple)
 
         # Display
         self.question_text.config(state=tk.NORMAL)
         self.question_text.delete("1.0", tk.END)
-        for idx, q in enumerate(self.current_ticket, 1):
-            original_index = self.questions.index(q) + 1
+        for idx, (original_index, q) in enumerate(current_ticket_with_indices, 1):
+            # OPTIMIZATION: Use pre-calculated original_index instead of O(N) questions.index()
             self.question_text.insert(tk.END, f"{idx}. {q} (номер вопроса {original_index})\n\n")
         count_left = len(self.remaining)
         self.question_text.insert(tk.END, f"Осталось вопросов: {count_left}")
